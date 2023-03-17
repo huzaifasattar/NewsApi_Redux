@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import newsFlow from "../apiData/newsApi";
+import {NewsFlow} from "../apiData/newsApi";
 
-export const getNewsApi = createAsyncThunk(async (newData) => {
-  const res = await newsFlow(newData);
+export const getNewsApi = createAsyncThunk("newState/getNewsApi",async (newData) => {
+  const res = await NewsFlow(newData);
   return res.json();
 });
 
@@ -12,12 +12,12 @@ const newState = createSlice({
     newData: {},
     status: null,
   },
-  reducers: {
+  extraReducers: {
     [getNewsApi.pending]: (state) => {
       state.status = "Loading";
     },
     [getNewsApi.fulfilled]: (state, { payload }) => {
-      state.newData = { ...payload };
+      state.newData = {...payload};
       state.status = "success";
     },
     [getNewsApi.rejected]: (state) => {
