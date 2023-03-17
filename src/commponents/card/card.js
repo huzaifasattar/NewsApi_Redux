@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
-import apiData from "../apiData/apiData";
+// import apiData from "../apiData/apiData";
 
 const Img = styled("img")({
   display: "block",
@@ -12,9 +12,8 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
-const ComplexGrid = () => {
-  const data = apiData;
-  return data.map((item) => {
+const ComplexGrid = ( {newslist , i}) => {
+ 
     return (
       <Paper
         sx={{
@@ -25,23 +24,23 @@ const ComplexGrid = () => {
           backgroundColor: (theme) =>
             theme.palette.mode === "dark" ? "#1A2027" : "#fff",
         }}
-        key={item.url}
+        
         className="marge"
       >
         <Grid container spacing={2}>
           <Grid item>
             <ButtonBase sx={{ width: 230, height: 128 }}>
-              <Img alt="complex" src={item.urlToImage} />
+              <Img alt="complex" src={newslist.urlToImage} />
             </ButtonBase>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1" component="div">
-                  {item.title}
+                  {newslist.title}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  {item.description}
+                  {newslist.description}
                 </Typography>
               </Grid>
             </Grid>
@@ -49,6 +48,6 @@ const ComplexGrid = () => {
         </Grid>
       </Paper>
     );
-  });
+
 };
 export default ComplexGrid;
