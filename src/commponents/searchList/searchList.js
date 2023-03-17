@@ -1,15 +1,49 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { TextField, Box, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import ComplexGrid from "../card/card"
+import { getNewsApi } from "../reduxThunk/state";
+
 
 const SearchList = () => {
-  const [newsdat, setNewData] = useState({
-    q: "turkey",
-    from: "16/03/2023",
-    to: "19/03/2023",
-    sortBy: "Popularity",
-    Page: "1",
+  
+  const news = useSelector((state) => state.newState);
+  const dispatch = useDispatch();
+  const [activeTab , setActivetabe] = useState(1)
+  const [newsdata, setNewData] = useState({
+    q: "apple",
+    from: "2023-03-10",
+    to: "2023-03-18",
+    sortBy: "popularity",
+    page: 1,
     pageSize: "8",
   });
+// useEffect(() => {
+//     setNewData((pre) => {
+//     const newData = {
+//       ...pre,
+//       page: activeTab,
+//     }
+//     dispatch(getNewsApi(newData));
+//     return newData;
+//     });
+    
+//   }, [activeTab]);
+
+  const handleChange = (event) => {
+    setNewData((get) => {
+      const cloneList = { ...get };
+      cloneList.page = 1;
+      cloneList[event.target.name] = event.target.value;
+      console.log(cloneList)
+      return cloneList;
+      
+    });
+  };
+
+  const searchNews = () => {
+    dispatch(getNewsApi(newsdata))
+  }
 
   return (
     <div>
@@ -26,7 +60,11 @@ const SearchList = () => {
             label="Search"
             id="outlined-size-small"
             size="small"
-            name="search"
+            name="q"
+            
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
           <TextField
             id="outlined-select-currency-native"
@@ -40,6 +78,10 @@ const SearchList = () => {
               shrink: true,
             }}
             name="sortBy"
+            defaultValue={newsdata.sortBy}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           >
             <option value="">Popularity</option>
             <option value="">Relevancy</option>
@@ -56,6 +98,10 @@ const SearchList = () => {
               shrink: true,
             }}
             name="from"
+            defaultValue={newsdata.from}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
           <TextField
             label="To"
@@ -66,6 +112,10 @@ const SearchList = () => {
               shrink: true,
             }}
             name="to"
+            defaultValue={newsdata.to}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <div>
@@ -78,15 +128,27 @@ const SearchList = () => {
               shrink: true,
             }}
             name="pageSize"
+            defaultValue={newsdata.pageSize}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <div>
-          <Button variant="contained" className="mt">
+          <Button variant="contained" className="mt" onClick={searchNews}>
             Search
           </Button>
         </div>
       </Box>
       <hr />
+      {
+        news.newData.articles
+          
+        ?
+          news.newData.articles
+          .map((newslist, i) => <ComplexGrid newslist={ newslist} i={i} key={`${i}-key`} />):console.log("error")
+      }
+
     </div>
   );
 };
