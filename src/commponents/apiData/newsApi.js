@@ -2,19 +2,20 @@ const linkURL = "https://newsapi.org/v2/everything";
 const apiKey = "c297528c4a4248a291279c747daa60d0";
 
 const genreteNews = (objItem = {}) => {
-  let queryList = "";
+  let query = "";
   const objlist = Object.keys(objItem);
 
   objlist.forEach(
-    (key, i) => (queryList += `${i === 0 ? "?" : "&"} ${key}=${objItem[key]}`)
+    (key, i) => (query += `${i === 0 ? "?" : "&"}${key}=${objItem[key]}`)
   );
-  return queryList;
+  return query;
 };
 
-const NewsFlow = (newData) => {
+export const NewsFlow = (newData) => {
   const objFile = { ...newData, apiKey };
-  const query = genreteNews(objFile);
+  const queryParams = genreteNews(objFile);
 
-  return fetch(`${linkURL} ${query}`);
+  return fetch(`${linkURL}${queryParams}`);
 };
-export default NewsFlow;
+
+
