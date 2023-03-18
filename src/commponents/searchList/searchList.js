@@ -1,15 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Box, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import ComplexGrid from "../card/card"
+import ComplexGrid from "../card/card";
 import { getNewsApi } from "../reduxThunk/state";
 
-
 const SearchList = () => {
-  
   const news = useSelector((state) => state.newState);
   const dispatch = useDispatch();
-  const [activeTab , setActivetabe] = useState(1)
   const [newsdata, setNewData] = useState({
     q: "apple",
     from: "2023-03-10",
@@ -18,32 +15,18 @@ const SearchList = () => {
     page: 1,
     pageSize: "8",
   });
-// useEffect(() => {
-//     setNewData((pre) => {
-//     const newData = {
-//       ...pre,
-//       page: activeTab,
-//     }
-//     dispatch(getNewsApi(newData));
-//     return newData;
-//     });
-    
-//   }, [activeTab]);
-
   const handleChange = (event) => {
     setNewData((get) => {
       const cloneList = { ...get };
       cloneList.page = 1;
       cloneList[event.target.name] = event.target.value;
-      console.log(cloneList)
       return cloneList;
-      
     });
   };
 
   const searchNews = () => {
-    dispatch(getNewsApi(newsdata))
-  }
+    dispatch(getNewsApi(newsdata));
+  };
 
   return (
     <div>
@@ -61,7 +44,6 @@ const SearchList = () => {
             id="outlined-size-small"
             size="small"
             name="q"
-            
             onChange={(e) => {
               handleChange(e);
             }}
@@ -141,14 +123,11 @@ const SearchList = () => {
         </div>
       </Box>
       <hr />
-      {
-        news.newData.articles
-          
-        ?
-          news.newData.articles
-          .map((newslist, i) => <ComplexGrid newslist={ newslist} i={i} key={`${i}-key`} />):console.log("error")
-      }
-
+      {news.newData.articles
+        ? news.newData.articles.map((newslist, i) => (
+            <ComplexGrid newslist={newslist} i={i} key={`${i}-key`} />
+          ))
+        : console.log("error")}
     </div>
   );
 };
