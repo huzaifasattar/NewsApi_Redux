@@ -12,18 +12,7 @@ const newState = createSlice({
     newData: {},
     status: null,
   },
-  // extraReducers: {
-  //   [getNewsApi.pending]: (state) => {
-  //     state.status = "Loading";
-  //   },
-  //   [getNewsApi.fulfilled]: (state, { payload }) => {
-  //     state.newData = {...payload};
-  //     state.status = "success";
-  //   },
-  //   [getNewsApi.rejected]: (state) => {
-  //     state.status = "failed";
-  //   },
-  // },
+  
   extraReducers(builder) {
     builder
       .addCase(getNewsApi.pending, (state) => {
